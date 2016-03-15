@@ -40,12 +40,4 @@ class Appointment < ActiveRecord::Base
 			end
 		end
 	end
-
-
-		# if Date::MONTHNAMES.index(self.month)
-		# 	number_of_month = Date::MONTHNAMES.index(self.month)
-		# elsif self.month 
-
-	end
-
 end
