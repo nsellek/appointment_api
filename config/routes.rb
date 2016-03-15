@@ -2,9 +2,9 @@ Rails.application.routes.draw do
 
 
 
-  root 'appointment#index'
+  root 'appointments#index'
 
-  resources :appointment
+  resources :appointments
 
 
   # The priority is based upon order of creation: first created -> highest priority.
