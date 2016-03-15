@@ -30,6 +30,6 @@ class AppointmentsController < ApplicationController
 	private
 
 	def entered_params
-		params.require(:appointment).permit(:first_name, :last_name, :start_time, :end_time)
+		params.require(:appointment).permit(:first_name, :last_name, :start_time, :end_time, :day, :month, :year)
 	end
 end
