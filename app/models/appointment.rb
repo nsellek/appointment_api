@@ -39,5 +39,14 @@ class Appointment < ActiveRecord::Base
 				number_of_month = index if self.month.to_i == index
 			end
 		end
+
+		@valid = false if number_of_month == 0
+
+		if @valid == true && @current_year == true
+			# Checks to see if the month is the current one or one in the furture
+			@valid = false unless number_of_month >= Time.new.month
+			# Checks to see if month is current
+			@current_month = true if number_of_month == Time.new.month
+		end
 	end
 end
