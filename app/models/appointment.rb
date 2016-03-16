@@ -9,7 +9,7 @@ class Appointment < ActiveRecord::Base
 	validates :month, presence: true
 	validates :year, presence: true
 
-	def validationCheck
+	def validation_check
 		@valid = true
 		valid_year
 		valid_month
@@ -97,7 +97,7 @@ class Appointment < ActiveRecord::Base
 		end
 	end
 
-	def validateUpdate
+	def validate_update
 		@valid = true
 		valid_time
 		return false unless @valid == true
