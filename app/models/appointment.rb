@@ -14,7 +14,7 @@ class Appointment < ActiveRecord::Base
 		valid_day
 		valid_time
 		return false unless @valid = true
-		# valid_time_slot
+		valid_time_slot
 		@valid
 	end
 
