@@ -9,17 +9,22 @@ class AppointmentsController < ApplicationController
 	def create
 		 appointment = Appointment.new(entered_params)
 
-
 		 # Checks to see if all inputs are valid
 		 if appointment.validationCheck && appointment.save
-		 	render json: appointment, status: 201
+		 	render json: appointment, status: 201, location: appointment
 		 else
 		 	render json: appointment.errors, status: 422
 		 end
 	end
 
 	def update
-
+		appointment = Appointment.find(params[:id])
+		app_update = appointment(entered_params)
+		if appointment.validationCheck && appointment.update(update)
+			render json: appointment, status: 200, locaiton: appointment
+		else
+			render json: appointment.errors.full_message, status: 422
+		end
 	end
 
 	def destroy
