@@ -34,7 +34,9 @@ class Appointment < ActiveRecord::Base
 		months.each_with_index do |name, index|
 			# Ignores the nil in the months array
 			if name
+				# Checks for matching full name
 				@number_of_month = index if cap_month == name
+				# Checks for matching abr
 				@number_of_month = index if cap_month == name[0..2]
 				@number_of_month = index if cap_month.to_i == index
 			end
@@ -70,5 +72,12 @@ class Appointment < ActiveRecord::Base
 		
 		# Checks to see if the start time is the current itme or a time in the future
 		@valid = false unless Time.parse(start_time, now) >= Time.now
+	end
+
+	def valid_time_slot
+		appointments = Appointment.all
+		# Saves the times of the appointment being saved
+		appointment_start_time = Time.parse(self.start_time).to_i
+		appointment_end_time = Time.parse(self.start_time).to_i
 	end
 end
