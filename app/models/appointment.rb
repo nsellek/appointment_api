@@ -76,8 +76,21 @@ class Appointment < ActiveRecord::Base
 
 	def valid_time_slot
 		appointments = Appointment.all
+		start_time = self.start_time.downcase
+		end_time = self.end_time.downcase
 		# Saves the times of the appointment being saved
-		appointment_start_time = Time.parse(self.start_time).to_i
-		appointment_end_time = Time.parse(self.start_time).to_i
+		appointment_start_time = Time.parse(start_time).to_i
+		appointment_end_time = Time.parse(end_time).to_i
+		# Converts start and end times to a range of seconds
+		appointment_time_range = (appointment_start_time..appointment_end_time).to_a
+
+		appointments.where(year: self.year, month: self.month, day: self.day).each do |appointment|
+			old_appointment_start_time = Time.parse(appointment.start_time.downcase).to_i
+			old_appointment_end_time = Time.parse(appointment.end_time.downcase).to_i
+			old_appointment_time_range = (old_appointment_start_time..old_appointment_end_time).to_a
+
+			@valid = false unless (appointment_time_range & old_appointment_time_range).empty?
+			break if @valid == false
+		end
 	end
 end
