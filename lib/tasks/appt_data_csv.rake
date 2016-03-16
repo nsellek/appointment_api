@@ -3,9 +3,21 @@ namespace :appt_data_crv do
   task data: :environment do
     csv = SmarterCSV.process('./appt_data.csv')
 
+    # Converts date into one that can be parsed
+    def reorder(time)
+      # Grabs day and month
+      month = time[0..1]
+      day = time[2..3]
+      # Reorders day and month
+      time[0..1] = day
+      time[3..4] = month
+      return time
+    end
+
     def get_time(time)
+      time = reorder(time)
       t = Time.parse(time)
-      t = t.strftime('%r')
+      t = t.strftime('%I:%M %p')
     end
 
     def get_month(time)
