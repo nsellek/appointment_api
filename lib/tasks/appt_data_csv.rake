@@ -1,4 +1,4 @@
-namespace :appt_data_crv do
+namespace :appt_data_csv do
   desc 'TODO'
   task data: :environment do
     csv = SmarterCSV.process('./appt_data.csv')
