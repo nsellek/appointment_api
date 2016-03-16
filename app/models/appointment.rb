@@ -89,7 +89,7 @@ class Appointment < ActiveRecord::Base
 			old_appointment_end_time = Time.parse(appointment.end_time.downcase).to_i
 			old_appointment_time_range = (old_appointment_start_time..old_appointment_end_time).to_a
 
-			@valid = false unless (appointment_time_range & old_appointment_time_range).empty?
+			@valid = false if (appointment_time_range & old_appointment_time_range).empty?
 			break if @valid == false
 		end
 	end
