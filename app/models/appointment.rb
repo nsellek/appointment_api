@@ -12,7 +12,7 @@ class Appointment < ActiveRecord::Base
 		valid_year
 		valid_month
 		valid_day
-		# valid_time
+		valid_time
 		return false unless @valid = true
 		# valid_time_slot
 		@valid
@@ -44,9 +44,9 @@ class Appointment < ActiveRecord::Base
 
 		if @valid && @current_year
 			# Checks to see if the month is the current one or one in the furture
-			@valid = false unless number_of_month >= Time.new.month
+			@valid = false unless @number_of_month >= Time.new.month
 			# Checks to see if month is current
-			@current_month = true if number_of_month == Time.new.month
+			@current_month = true if @number_of_month == Time.new.month
 		end
 	end
 
@@ -58,5 +58,18 @@ class Appointment < ActiveRecord::Base
 			# Checks to see if the day is today
 			@current_day = true if self.day.to_i == Time.new.day
 		end
+	end
+
+	def valid_time
+		start_time = self.start_time.downcase
+		end_time = self.end_time.downcase
+		now = Time.now
+
+		# Checks to see if start and end time can be converted to time class
+		@valid = false unless Time.parse(start_time)
+		@valid = false unless Time.parse(end_time)
+		
+		# Checks to see if the start time is the current itme or a time in the future
+		@valid = false unless Time.parse(start_time, now) >= Time.now
 	end
 end
