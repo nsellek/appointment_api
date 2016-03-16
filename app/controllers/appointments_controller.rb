@@ -19,11 +19,11 @@ class AppointmentsController < ApplicationController
 
 	def update
 		appointment = Appointment.find(params[:id])
-		app_update = appointment(entered_params)
-		if appointment.validationCheck && appointment.update(update)
+		appointment.assign_attributes(entered_params)
+		if appointment.validateUpdate && appointment.save
 			render json: appointment, status: 200, locaiton: appointment
 		else
-			render json: appointment.errors.full_message, status: 422
+			render json: appointment.errors, status: 422
 		end
 	end
 

@@ -13,7 +13,7 @@ class Appointment < ActiveRecord::Base
 		valid_month
 		valid_day
 		valid_time
-		return false unless @valid = true
+		return false unless @valid == true
 		valid_time_slot
 		@valid
 	end
@@ -69,7 +69,8 @@ class Appointment < ActiveRecord::Base
 		# Checks to see if start and end time can be converted to time class
 		@valid = false unless Time.parse(start_time)
 		@valid = false unless Time.parse(end_time)
-		
+		# Skips last step if its not the current day
+		return unless @current_day
 		# Checks to see if the start time is the current itme or a time in the future
 		@valid = false unless Time.parse(start_time, now) >= Time.now
 	end
@@ -88,9 +89,17 @@ class Appointment < ActiveRecord::Base
 			old_appointment_start_time = Time.parse(appointment.start_time.downcase).to_i
 			old_appointment_end_time = Time.parse(appointment.end_time.downcase).to_i
 			old_appointment_time_range = (old_appointment_start_time..old_appointment_end_time).to_a
-
-			@valid = false if (appointment_time_range & old_appointment_time_range).empty?
+			
+			@valid = false unless (appointment_time_range & old_appointment_time_range).empty?
 			break if @valid == false
 		end
+	end
+
+	def validateUpdate
+		@valid = true
+		valid_time
+		return false unless @valid == true
+		valid_time_slot
+		@valid
 	end
 end
