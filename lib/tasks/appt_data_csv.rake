@@ -2,37 +2,31 @@ namespace :appt_data_csv do
   desc 'TODO'
   task data: :environment do
     csv = SmarterCSV.process('./appt_data.csv')
-
-    # Converts date into one that can be parsed
-    def reorder(time)
-      # Grabs day and month
-      month = time[0..1]
-      day = time[2..3]
-      # Reorders day and month
-      time[0..1] = day
-      time[3..4] = month
-      return time
-    end
+    # Created custom date formating for parsing the times
+    @custom_date_format = '%m/%e/%y %k:%M'
 
     def get_time(time)
-      time = reorder(time)
-      t = Time.parse(time)
+      t = DateTime.strptime(time, @custom_date_format)
       t = t.strftime('%I:%M %p')
+      p t
     end
 
     def get_month(time)
-      month = Time.parse(time)
+      month = DateTime.strptime(time, @custom_date_format)
       month = month.strftime('%B')
+      p month
     end
 
     def get_day(time)
-      day = Time.parse(time)
-      day = day.strftime('%d')
+      day = DateTime.strptime(time, @custom_date_format)
+      day = day.strftime('%e')
+      p day
     end
 
     def get_year(time)
-      year = Time.parse(time)
+      year = DateTime.strptime(time, @custom_date_format)
       year = year.strftime('%Y')
+      p year
     end
 
     csv.each do |line|
