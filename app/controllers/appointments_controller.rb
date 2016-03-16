@@ -7,14 +7,14 @@ class AppointmentsController < ApplicationController
 	end
 
 	def create
-		 appointment = Appointment.new(entered_ params)
+		 appointment = Appointment.new(entered_params)
 
 
 		 # Checks to see if all inputs are valid
 		 if appointment.validationCheck && appointment.save
 		 	render json: appointment, status: 201
 		 else
-		 	render json: appointment.errors.full_message, status: 422
+		 	render json: appointment.errors, status: 422
 		 end
 	end
 

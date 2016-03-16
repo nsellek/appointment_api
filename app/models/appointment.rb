@@ -12,9 +12,9 @@ class Appointment < ActiveRecord::Base
 		valid_year
 		valid_month
 		valid_day
-		valid_time
+		# valid_time
 		return false unless @valid = true
-		valid_time_slot
+		# valid_time_slot
 		@valid
 	end
 
@@ -27,26 +27,36 @@ class Appointment < ActiveRecord::Base
 
 	def valid_month
 
-		number_of_month = 0
+		@number_of_month = 0
 		months = Date::MONTHNAMES
 		self.month.downcase.capitalize
 
 		months.each_with_index do |name, index|
 			# Ignores the nil in the months array
 			if name
-				number_of_month = index if self.month == name
-				number_of_month = index if self.month == name[0..2]
-				number_of_month = index if self.month.to_i == index
+				@number_of_month = index if self.month == name
+				@number_of_month = index if self.month == name[0..2]
+				@number_of_month = index if self.month.to_i == index
 			end
 		end
 
-		@valid = false if number_of_month == 0
+		@valid = false if @number_of_month == 0
 
-		if @valid == true && @current_year == true
+		if @valid && @current_year
 			# Checks to see if the month is the current one or one in the furture
 			@valid = false unless number_of_month >= Time.new.month
 			# Checks to see if month is current
 			@current_month = true if number_of_month == Time.new.month
+		end
+	end
+
+	def valid_day
+		@valid = false unless self.day.to_i <= Time.days_in_month(@number_of_month) && self.day.to_i > 0
+		# Checks to see if the day is today or the future
+		if @valid && @current_month
+			@valid = false unless self.day.to_i >= Time.new.day
+			# Checks to see if the day is today
+			@current_day = true if self.day.to_i == Time.new.day
 		end
 	end
 end
