@@ -1,7 +1,11 @@
 class AppointmentsController < ApplicationController
 
+
 	def index
-		appointments = Appointment.all
+		# Checks to see if there are any search params and if there are then filters the results
+		appointments = Appointment.where(nil)
+		appointments = appointments.start_time(params[:start_time]) if params[:start_time].present?
+		appointments = appointments.end_time(params[:end_time]) if params[:end_time].present?
 
 		render json: appointments, status: 200
 	end
@@ -40,6 +44,7 @@ class AppointmentsController < ApplicationController
 	end
 
 	private
+
 
 	def entered_params
 		params.require(:appointment).permit(:first_name, :last_name, :start_time, :end_time, :day, :month, :year)

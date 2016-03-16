@@ -1,4 +1,6 @@
 class Appointment < ActiveRecord::Base
+	scope :start_time, -> (start_time) {where start_time: start_time}
+	scope :end_time, -> (end_time) {where end_time: end_time}
 	validates :first_name, presence: true
 	validates :last_name, presence: true
 	validates :start_time, presence: true
