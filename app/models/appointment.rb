@@ -15,7 +15,7 @@ class Appointment < ActiveRecord::Base
 		valid_month
 		valid_day
 		valid_time
-		return false unless @valid == true
+		return @valid if @valid == false
 		valid_time_slot
 		@valid
 	end
@@ -78,7 +78,7 @@ class Appointment < ActiveRecord::Base
 	end
 
 	def valid_time_slot
-		appointments = Appointment.all
+		appointments = Appointment.where(nil)
 		start_time = self.start_time.downcase
 		end_time = self.end_time.downcase
 		# Saves the times of the appointment being saved

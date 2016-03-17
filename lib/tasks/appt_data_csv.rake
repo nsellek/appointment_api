@@ -1,5 +1,5 @@
 namespace :appt_data_csv do
-  desc 'TODO'
+  desc 'Pulls data from appt_data.csv and imports to database'
   task data: :environment do
     csv = SmarterCSV.process('./appt_data.csv')
     # Created custom date formating for parsing the times
@@ -8,25 +8,21 @@ namespace :appt_data_csv do
     def get_time(time)
       t = DateTime.strptime(time, @custom_date_format)
       t = t.strftime('%I:%M %p')
-      p t
     end
 
     def get_month(time)
       month = DateTime.strptime(time, @custom_date_format)
       month = month.strftime('%B')
-      p month
     end
 
     def get_day(time)
       day = DateTime.strptime(time, @custom_date_format)
       day = day.strftime('%e')
-      p day
     end
 
     def get_year(time)
       year = DateTime.strptime(time, @custom_date_format)
       year = year.strftime('%Y')
-      p year
     end
 
     csv.each do |line|

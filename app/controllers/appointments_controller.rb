@@ -3,7 +3,7 @@ class AppointmentsController < ApplicationController
 
   def index
     # Checks to see if there are any search params and if there are then filters the results
-    appointments = Appointment.all
+    appointments = Appointment.where(nil)
     appointments = appointments.start_time(params[:start_time]) if params[:start_time].present?
     appointments = appointments.end_time(params[:end_time]) if params[:end_time].present?
 
